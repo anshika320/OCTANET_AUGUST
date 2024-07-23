@@ -1,0 +1,72 @@
+map in react such that
+k1 has values v1,v2,v3
+k2 has values v1,v2
+k3 has values v1,v2,v3,v4
+k4 has v1,v2 
+There are 2 variables n1 and n2 intialised as empty variables , there is also a list of keys k1,k2,k3,k4. I have made a logic such that list[i].values compares with list[i+1] so on and if it matches then n1=list[i] and n2=list[i+1].values and so on . The code is as follows
+for(int i=0;i<list.length;i++)
+{
+	for(int j=0;j<list[i].values.length;i++)
+	{
+		if(list[i].values[j]==list[i+1])
+		{
+			if(n1==empty)
+			{
+				n1=list[i];
+			}
+			if(i<list.length-1)
+			{
+				n2=list[i+1].values;
+			}
+		}
+	}
+}
+convert this logic into react logic 
+
+
+
+
+
+
+
+
+
+
+
+
+let n1=null;
+let n2=null;
+const keysList = tempData.map(item => item.id);
+
+  const findAndAddEdges = (i, n1, n2) => {
+    if (i >= keysList.length - 1) {
+      return;
+    }
+
+    const currentItem = tempData.find(item => item.id === keysList[i]);
+    const nextItem = tempData.find(item => item.id === keysList[i + 1]);
+
+    if (currentItem && nextItem) {
+      for (let j = 0; j < currentItem.values.length; j++) {
+        if (currentItem.values[j] === nextItem.key) {
+          if (!n1) {
+            n1 = currentItem;
+          }
+          if (!n2 && i < keysList.length - 1) {
+            n2 = nextItem;
+          }
+          if (n1 && n2) {
+            edges.push({
+              from: n1.id,
+              to: n2.id,
+              arrows: 'to',
+              //color: 'red' // Optional: to highlight the new edge
+            });
+            // Continue recursively
+            findAndAddEdges(i + 1, n1, n2);
+          }
+        }
+      }
+    }
+  };
+findAndAddEdges(0, null, null);
